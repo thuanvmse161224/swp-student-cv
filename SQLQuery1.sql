@@ -1,6 +1,9 @@
+drop database StudentCV
+go
 create database StudentCV
+go
 use StudentCV
-
+go
 create table Student(
 	StudentId int identity(1,1) PRIMARY KEY,
 	JobPosition nvarchar(100) null,
@@ -9,7 +12,7 @@ create table Student(
 	StuName nvarchar(100) null,
 	PhoneNum nvarchar(10) null,
 	Addr nvarchar(255) null,
-	Email nvarchar(255) null
+	Email nvarchar(255) not null
 )
 
 create table Major(
