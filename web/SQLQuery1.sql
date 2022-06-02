@@ -1,4 +1,3 @@
-<<<<<<< HEAD:SQLQuery1.sql
 drop database StudentCV
 go
 create database StudentCV
