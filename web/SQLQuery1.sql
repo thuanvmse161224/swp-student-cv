@@ -42,7 +42,7 @@ create table Company(
 	CompanyId nvarchar(50) PRIMARY KEY,
 	Specialization nvarchar(250),
 	Email nvarchar(50),
-	PhoneNumber int,
+	PhoneNumber nvarchar(10),
 	Addr nvarchar(250)
 )
 
@@ -66,7 +66,7 @@ create table CV(
 	StudentId int FOREIGN KEY REFERENCES Student(StudentId)
 )
 
-create table CV_company(
+create table CV_Company(
 	CvId int FOREIGN KEY REFERENCES CV(CvId),
 	CompanyId nvarchar(50) FOREIGN KEY REFERENCES Company(CompanyId),
 	PRIMARY KEY(CvId,CompanyId)
@@ -77,7 +77,7 @@ create table Career(
 	CareerName nvarchar(250)
 )
 
-create table Company_career(
+create table Company_Career(
 	CareerId int FOREIGN KEY REFERENCES Career(CareerId),
 	CompanyId nvarchar(50) FOREIGN KEY REFERENCES Company(CompanyId),
 	PRIMARY KEY(CareerId,CompanyId)

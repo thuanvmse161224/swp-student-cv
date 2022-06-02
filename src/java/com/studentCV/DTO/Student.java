@@ -10,99 +10,92 @@ package com.studentCV.DTO;
  * @author minhh
  */
 public class Student {
-    public String StudentId;
-    public String JobPosition;
-    public String EduQua;
-    public String Experience;
-    public String StuName;
-    public int PhoneNum;
-    public String Addr;
-    public String Email;
-    
-    public Student(){
-        
+
+    public String studentId;
+    public String jobPosition;
+    public String eduQua;
+    public String experience;
+    public String stuName;
+    public String phoneNum;
+    public String addr;
+    public String email;
+
+    public Student() {
     }
 
-    public Student(String StudentId, String JobPosition, String EduQua, String Experience, String StuName, int PhoneNum, String Addr, String Email) {
-        this.StudentId = StudentId;
-        this.JobPosition = JobPosition;
-        this.EduQua = EduQua;
-        this.Experience = Experience;
-        this.StuName = StuName;
-        this.PhoneNum = PhoneNum;
-        this.Addr = Addr;
-        this.Email = Email;
+    public Student(String studentId, String jobPosition, String eduQua, String experience, String stuName, String phoneNum, String addr, String email) {
+        this.studentId = studentId;
+        this.jobPosition = jobPosition;
+        this.eduQua = eduQua;
+        this.experience = experience;
+        this.stuName = stuName;
+        this.phoneNum = phoneNum;
+        this.addr = addr;
+        this.email = email;
     }
 
     public String getStudentId() {
-        return StudentId;
+        return studentId;
     }
 
-    public void setStudentId(String StudentId) {
-        this.StudentId = StudentId;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getJobPosition() {
-        return JobPosition;
+        return jobPosition;
     }
 
-    public void setJobPosition(String JobPosition) {
-        this.JobPosition = JobPosition;
+    public void setJobPosition(String jobPosition) {
+        this.jobPosition = jobPosition;
     }
 
     public String getEduQua() {
-        return EduQua;
+        return eduQua;
     }
 
-    public void setEduQua(String EduQua) {
-        this.EduQua = EduQua;
+    public void setEduQua(String eduQua) {
+        this.eduQua = eduQua;
     }
 
     public String getExperience() {
-        return Experience;
+        return experience;
     }
 
-    public void setExperience(String Experience) {
-        this.Experience = Experience;
+    public void setExperience(String experience) {
+        this.experience = experience;
     }
 
     public String getStuName() {
-        return StuName;
+        return stuName;
     }
 
-    public void setStuName(String StuName) {
-        this.StuName = StuName;
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
     }
 
-    public int getPhoneNum() {
-        return PhoneNum;
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
-    public void setPhoneNum(int PhoneNum) {
-        this.PhoneNum = PhoneNum;
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
     public String getAddr() {
-        return Addr;
+        return addr;
     }
 
-    public void setAddr(String Addr) {
-        this.Addr = Addr;
+    public void setAddr(String addr) {
+        this.addr = addr;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" + "StudentId=" + StudentId + ", JobPosition=" + JobPosition + ", EduQua=" + EduQua + ", Experience=" + Experience + ", StuName=" + StuName + ", PhoneNum=" + PhoneNum + ", Addr=" + Addr + ", Email=" + Email + '}';
-    }
-    
-    
-        
 }
