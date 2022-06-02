@@ -10,40 +10,32 @@ package com.studentCV.DTO;
  * @author minhh
  */
 public class CV {
-    public int CvId;
-    public int StudentId;
-    
-    public CV(){
-        
-}
 
-    public CV(int CvId, int StudentId) {
-        this.CvId = CvId;
-        this.StudentId = StudentId;
+    public int cvId;
+    public Student student;
+
+    public CV() {
+    }
+
+    public CV(int cvId, Student student) {
+        this.cvId = cvId;
+        this.student = student;
     }
 
     public int getCvId() {
-        return CvId;
+        return cvId;
     }
 
-    public void setCvId(int CvId) {
-        this.CvId = CvId;
+    public void setCvId(int cvId) {
+        this.cvId = cvId;
     }
 
-    public int getStudentId() {
-        return StudentId;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(int StudentId) {
-        this.StudentId = StudentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
-
-    @Override
-    public String toString() {
-        return "CV{" + "CvId=" + CvId + ", StudentId=" + StudentId + '}';
-    }
-     
-    
     
 }
-

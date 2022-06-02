@@ -10,78 +10,72 @@ package com.studentCV.DTO;
  * @author minhh
  */
 public class Job {
-    public int JodId;
-    public int CompanyId;
-    public String JobReq;
-    public String Vacancies;
-    public int salary;
-    public String JobInf;
-    
-    public Job(){
-        
+
+    public String jobId;
+    public Company company;
+    public String jobReq;
+    public String vacancies;
+    public float salary;
+    public String jobInf;
+
+    public Job() {
     }
 
-    public Job(int JodId, int CompanyId, String JobReq, String Vacancies, int salary, String JobInf) {
-        this.JodId = JodId;
-        this.CompanyId = CompanyId;
-        this.JobReq = JobReq;
-        this.Vacancies = Vacancies;
+    public Job(String jobId, Company company, String jobReq, String vacancies, float salary, String jobInf) {
+        this.jobId = jobId;
+        this.company = company;
+        this.jobReq = jobReq;
+        this.vacancies = vacancies;
         this.salary = salary;
-        this.JobInf = JobInf;
+        this.jobInf = jobInf;
     }
 
-    public int getJodId() {
-        return JodId;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJodId(int JodId) {
-        this.JodId = JodId;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
-    public int getCompanyId() {
-        return CompanyId;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyId(int CompanyId) {
-        this.CompanyId = CompanyId;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public String getJobReq() {
-        return JobReq;
+        return jobReq;
     }
 
-    public void setJobReq(String JobReq) {
-        this.JobReq = JobReq;
+    public void setJobReq(String jobReq) {
+        this.jobReq = jobReq;
     }
 
     public String getVacancies() {
-        return Vacancies;
+        return vacancies;
     }
 
-    public void setVacancies(String Vacancies) {
-        this.Vacancies = Vacancies;
+    public void setVacancies(String vacancies) {
+        this.vacancies = vacancies;
     }
 
-    public int getSalary() {
+    public float getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(float salary) {
         this.salary = salary;
     }
 
     public String getJobInf() {
-        return JobInf;
+        return jobInf;
     }
 
-    public void setJobInf(String JobInf) {
-        this.JobInf = JobInf;
+    public void setJobInf(String jobInf) {
+        this.jobInf = jobInf;
     }
-
-    @Override
-    public String toString() {
-        return "Job{" + "JodId=" + JodId + ", CompanyId=" + CompanyId + ", JobReq=" + JobReq + ", Vacancies=" + Vacancies + ", salary=" + salary + ", JobInf=" + JobInf + '}';
-    }
-    
     
 }

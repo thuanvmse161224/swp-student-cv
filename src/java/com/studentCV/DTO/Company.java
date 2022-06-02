@@ -10,21 +10,22 @@ package com.studentCV.DTO;
  * @author minhh
  */
 public class Company {
-    public String companyId;
-    public String Specialization;
-    public String Email;
-    public String PhoneNumber;
-    public String Addr;
-    
-    public Company(){
-      }
 
-    public Company(String companyId, String Specialization, String Email, String PhoneNumber, String Addr) {
+    public String companyId;
+    public String specialization;
+    public String email;
+    public String phoneNumber;
+    public String addr;
+
+    public Company() {
+    }
+
+    public Company(String companyId, String specialization, String email, String phoneNumber, String addr) {
         this.companyId = companyId;
-        this.Specialization = Specialization;
-        this.Email = Email;
-        this.PhoneNumber = PhoneNumber;
-        this.Addr = Addr;
+        this.specialization = specialization;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.addr = addr;
     }
 
     public String getCompanyId() {
@@ -36,41 +37,35 @@ public class Company {
     }
 
     public String getSpecialization() {
-        return Specialization;
+        return specialization;
     }
 
-    public void setSpecialization(String Specialization) {
-        this.Specialization = Specialization;
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
-    public void setEmail(String Email) {
-        this.Email = Email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
-    public void setPhoneNumber(String PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getAddr() {
-        return Addr;
+        return addr;
     }
 
-    public void setAddr(String Addr) {
-        this.Addr = Addr;
+    public void setAddr(String addr) {
+        this.addr = addr;
     }
 
-    @Override
-    public String toString() {
-        return "Company{" + "companyId=" + companyId + ", Specialization=" + Specialization + ", Email=" + Email + ", PhoneNumber=" + PhoneNumber + ", Addr=" + Addr + '}';
-    }
-    
-    
 }
