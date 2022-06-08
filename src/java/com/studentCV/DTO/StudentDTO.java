@@ -19,11 +19,12 @@ public class StudentDTO {
     public String phoneNum;
     public String addr;
     public String email;
+    public boolean status;
 
     public StudentDTO() {
     }
 
-    public StudentDTO(int studentId, String jobPosition, String eduQua, String experience, String stuName, String phoneNum, String addr, String email) {
+    public StudentDTO(int studentId, String jobPosition, String eduQua, String experience, String stuName, String phoneNum, String addr, String email, boolean status) {
         this.studentId = studentId;
         this.jobPosition = jobPosition;
         this.eduQua = eduQua;
@@ -32,6 +33,15 @@ public class StudentDTO {
         this.phoneNum = phoneNum;
         this.addr = addr;
         this.email = email;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getStudentId() {

@@ -17,17 +17,27 @@ public class JobDTO {
     public String vacancies;
     public float salary;
     public String jobInf;
+    public boolean status;
 
     public JobDTO() {
     }
 
-    public JobDTO(String jobId, CompanyDTO company, String jobReq, String vacancies, float salary, String jobInf) {
+    public JobDTO(String jobId, CompanyDTO company, String jobReq, String vacancies, float salary, String jobInf, boolean status) {
         this.jobId = jobId;
         this.company = company;
         this.jobReq = jobReq;
         this.vacancies = vacancies;
         this.salary = salary;
         this.jobInf = jobInf;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getJobId() {
@@ -77,5 +87,5 @@ public class JobDTO {
     public void setJobInf(String jobInf) {
         this.jobInf = jobInf;
     }
-    
+
 }

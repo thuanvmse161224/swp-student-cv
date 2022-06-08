@@ -9,15 +9,26 @@ package com.studentCV.DTO;
  * @author tungp
  */
 public class CareerDTO {
+
     public int careerId;
     public String careerName;
+    public boolean status;
 
     public CareerDTO() {
     }
 
-    public CareerDTO(int careerId, String careerName) {
+    public CareerDTO(int careerId, String careerName, boolean status) {
         this.careerId = careerId;
         this.careerName = careerName;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public int getCareerId() {
@@ -35,5 +46,5 @@ public class CareerDTO {
     public void setCareerName(String careerName) {
         this.careerName = careerName;
     }
-    
+
 }

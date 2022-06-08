@@ -16,16 +16,26 @@ public class CompanyDTO {
     public String email;
     public String phoneNumber;
     public String addr;
+    public boolean status;
 
     public CompanyDTO() {
     }
 
-    public CompanyDTO(String companyId, String specialization, String email, String phoneNumber, String addr) {
+    public CompanyDTO(String companyId, String specialization, String email, String phoneNumber, String addr, boolean status) {
         this.companyId = companyId;
         this.specialization = specialization;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.addr = addr;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getCompanyId() {
