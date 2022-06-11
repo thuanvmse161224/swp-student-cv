@@ -12,13 +12,23 @@ public class Stu_JobDTO {
 
     public StudentDTO student;
     public JobDTO job;
+    public boolean status;
 
     public Stu_JobDTO() {
     }
 
-    public Stu_JobDTO(StudentDTO student, JobDTO job) {
+    public Stu_JobDTO(StudentDTO student, JobDTO job, boolean status) {
         this.student = student;
         this.job = job;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public StudentDTO getStudent() {

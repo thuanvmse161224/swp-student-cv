@@ -12,13 +12,22 @@ public class Stu_SkillDTO {
 
     public StudentDTO student;
     public SkillDTO skill;
+    public boolean status;
 
     public Stu_SkillDTO() {
     }
 
-    public Stu_SkillDTO(StudentDTO student, SkillDTO skill) {
+    public Stu_SkillDTO(StudentDTO student, SkillDTO skill, boolean status) {
         this.student = student;
         this.skill = skill;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public StudentDTO getStudent() {

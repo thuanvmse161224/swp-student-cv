@@ -12,13 +12,22 @@ public class Stu_MajorDTO {
 
     public StudentDTO student;
     public MajorDTO major;
+    public boolean status;
 
     public Stu_MajorDTO() {
     }
 
-    public Stu_MajorDTO(StudentDTO student, MajorDTO major) {
+    public Stu_MajorDTO(StudentDTO student, MajorDTO major, boolean status) {
         this.student = student;
         this.major = major;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public StudentDTO getStudent() {

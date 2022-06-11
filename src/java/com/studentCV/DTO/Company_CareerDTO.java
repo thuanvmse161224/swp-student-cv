@@ -9,15 +9,26 @@ package com.studentCV.DTO;
  * @author tungp
  */
 public class Company_CareerDTO {
+
     public CareerDTO career;
     public CompanyDTO company;
+    public boolean status;
 
     public Company_CareerDTO() {
     }
 
-    public Company_CareerDTO(CareerDTO career, CompanyDTO company) {
+    public Company_CareerDTO(CareerDTO career, CompanyDTO company, boolean status) {
         this.career = career;
         this.company = company;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public CareerDTO getCareer() {
@@ -35,5 +46,5 @@ public class Company_CareerDTO {
     public void setCompany(CompanyDTO company) {
         this.company = company;
     }
-    
+
 }

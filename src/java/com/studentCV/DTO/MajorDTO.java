@@ -12,13 +12,23 @@ public class MajorDTO {
 
     public String majorId;
     public String majorName;
+    public boolean status;
 
     public MajorDTO() {
     }
 
-    public MajorDTO(String majorId, String majorName) {
+    public MajorDTO(String majorId, String majorName, boolean status) {
         this.majorId = majorId;
         this.majorName = majorName;
+        this.status = status;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getMajorId() {
