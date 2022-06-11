@@ -11,7 +11,7 @@ package com.studentCV.DTO;
  */
 public class JobDTO {
 
-    public String jobId;
+    public int jobId;
     public CompanyDTO company;
     public String jobReq;
     public String vacancies;
@@ -22,7 +22,7 @@ public class JobDTO {
     public JobDTO() {
     }
 
-    public JobDTO(String jobId, CompanyDTO company, String jobReq, String vacancies, float salary, String jobInf, boolean status) {
+    public JobDTO(int jobId, CompanyDTO company, String jobReq, String vacancies, float salary, String jobInf, boolean status) {
         this.jobId = jobId;
         this.company = company;
         this.jobReq = jobReq;
@@ -40,11 +40,11 @@ public class JobDTO {
         this.status = status;
     }
 
-    public String getJobId() {
+    public int getJobId() {
         return jobId;
     }
 
-    public void setJobId(String jobId) {
+    public void setJobId(int jobId) {
         this.jobId = jobId;
     }
 
