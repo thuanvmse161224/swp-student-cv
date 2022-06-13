@@ -47,6 +47,7 @@ create table Stu_Skill(
 go
 create table Company(
 	CompanyId nvarchar(50) PRIMARY KEY,
+	CompanyName nvarchar(100),
 	Specialization nvarchar(250),
 	Email nvarchar(50),
 	PhoneNumber int,
@@ -61,6 +62,11 @@ create table Job(
 	Vacancies nvarchar(50),
 	Salary float,
 	JobInf text,
+	JobType nvarchar(50),
+	JobLocation nvarchar(255),
+	JobExperience int,
+	JobPostDate Date,
+	JobDescription text,
 	Status bit DEFAULT '1'
 )
 go
