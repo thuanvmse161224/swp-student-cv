@@ -99,11 +99,49 @@ public class Stu_JobDAO {
         return check;
     }
 
-    public boolean update(Stu_JobDTO stu_job) {
+    public boolean update(Stu_JobDTO stu_job) throws SQLException {
         boolean check = false;
         String sql = "UPDATE [StudentCV].[dbo].[Stu_Job] SET"
                 + "Status=?"
                 + "WHERE StudentId=? AND JobId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+                pstm.setBoolean(1, stu_job.isStatus());
+                pstm.setInt(2, stu_job.getStudent().getStudentId());
+                pstm.setInt(3, stu_job.getJob().getJobId());
+
+                check = pstm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return check;
+    }
+
+    public boolean delete(Stu_JobDTO stu_job) throws SQLException {
+        boolean check = false;
+        String sql = "UPDATE [StudentCV].[dbo].[Stu_Job] SET"
+                + "Status=?"
+                + "WHERE StudentId=? AND JobId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+                pstm.setBoolean(1, false);
+                pstm.setInt(2, stu_job.getStudent().getStudentId());
+                pstm.setInt(3, stu_job.getJob().getJobId());
+
+                check = pstm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
         return check;
     }
 }
