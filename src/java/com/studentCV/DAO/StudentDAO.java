@@ -45,6 +45,7 @@ public class StudentDAO {
                 + "      ,[PhoneNum]\n"
                 + "      ,[Addr]\n"
                 + "      ,[Email]\n"
+                + "      ,[Status]\n"
                 + "  FROM [StudentCV].[dbo].[Student]";
 
         ArrayList<StudentDTO> lst = new ArrayList<>();
@@ -65,8 +66,9 @@ public class StudentDAO {
                     String phone = rs.getString("PhoneNum");
                     String addr = rs.getString("Addr");
                     String email = rs.getString("Email");
+                    boolean status = rs.getBoolean("Status");
 
-                    StudentDTO stu = new StudentDTO(id, job, edu, exp, name, phone, addr, email);
+                    StudentDTO stu = new StudentDTO(id, job, edu, exp, name, phone, addr, email, status);
 
                     lst.add(stu);
                 }
@@ -89,8 +91,9 @@ public class StudentDAO {
                     + "      ,[StuName]\n"
                     + "      ,[PhoneNum]\n"
                     + "      ,[Addr]\n"
-                    + "      ,[Email]\n)"
-                    + "Values(?,?,?,?,?,?,?)";
+                    + "      ,[Email]\n"
+                    + "      ,[Status]\n)"
+                    + "Values(?,?,?,?,?,?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             pstm = con.prepareStatement(sql);
@@ -101,6 +104,7 @@ public class StudentDAO {
             pstm.setString(5, stu.getPhoneNum());
             pstm.setString(6, stu.getAddr());
             pstm.setString(7, stu.getEmail());
+            pstm.setBoolean(8, true);
 
             check = pstm.executeUpdate() > 0;
         } finally {
@@ -135,6 +139,7 @@ public class StudentDAO {
                 + ", PhoneNum=?"
                 + ", Addr=?"
                 + ", Email=?"
+                + ", Status=?"
                 + " WHERE StudentId=?";
         try {
             con = DBUtils.makeConnection();
@@ -147,7 +152,8 @@ public class StudentDAO {
                 pstm.setString(4, stu.getPhoneNum());
                 pstm.setString(5, stu.getAddr());
                 pstm.setString(6, stu.getEmail());
-                pstm.setInt(7, stu.getStudentId());
+                pstm.setBoolean(7, stu.isStatus());
+                pstm.setInt(8, stu.getStudentId());
                 pstm.executeUpdate();
                 return true;
             }
@@ -160,15 +166,16 @@ public class StudentDAO {
     public StudentDTO getStudentById(int id) throws Exception {
         StudentDTO result = null;
         try {
-            String sql = "\"SELECT [StudentId]\\n\"\n"
-                    + "                + \"      ,[JobPosition]\\n\"\n"
-                    + "                + \"      ,[EduQua]\\n\"\n"
-                    + "                + \"      ,[Experience]\\n\"\n"
-                    + "                + \"      ,[StuName]\\n\"\n"
-                    + "                + \"      ,[PhoneNum]\\n\"\n"
-                    + "                + \"      ,[Addr]\\n\"\n"
-                    + "                + \"      ,[Email]\\n\"\n"
-                    + "                + \"  FROM [StudentCV].[dbo].[Student]\\n"
+            String sql = "\"SELECT [StudentId]\n"
+                    + "                + \"      ,[JobPosition]\n"
+                    + "                + \"      ,[EduQua]\n"
+                    + "                + \"      ,[Experience]\n"
+                    + "                + \"      ,[StuName]\n"
+                    + "                + \"      ,[PhoneNum]\n"
+                    + "                + \"      ,[Addr]\n"
+                    + "                + \"      ,[Email]\n"
+                    + "                + \"      ,[Status]\n"
+                    + "                + \"  FROM [StudentCV].[dbo].[Student]\n"
                     + "Where StudentId=?\n";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
@@ -183,7 +190,8 @@ public class StudentDAO {
                 String phoneNum = rs.getString("PhoneNum");
                 String addr = rs.getString("Addr");
                 String email = rs.getString("Email");
-                result = new StudentDTO(id, jobPosition, eduQua, experience, stuName, phoneNum, addr, email);
+                boolean status = rs.getBoolean("Status");
+                result = new StudentDTO(id, jobPosition, eduQua, experience, stuName, phoneNum, addr, email, status);
             }
         } finally {
             closeConnection();

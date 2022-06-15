@@ -39,6 +39,7 @@ public class MajorDAO {
 
         String sql = "SELECT [MajorId]\n"
                 + "      ,[MajorName]\n"
+                + "      ,[Status]\n"
                 + "  FROM [StudentCV].[dbo].[Major]";
 
         ArrayList<MajorDTO> lst = new ArrayList<>();
@@ -53,8 +54,9 @@ public class MajorDAO {
                 while (rs.next()) {
                     String id = rs.getString("MajorId");
                     String name = rs.getString("MajorName");
+                    boolean status = rs.getBoolean("Status");
 
-                    MajorDTO major = new MajorDTO(id, name);
+                    MajorDTO major = new MajorDTO(id, name, status);
 
                     lst.add(major);
                 }
@@ -72,13 +74,15 @@ public class MajorDAO {
         try {
             String sql = "Insert Into [StudentCV].[dbo].[Major]"
                     + "      ,([MajorId]\n"
-                    + "      ,[MajorName])\n"
-                    + "Values(?,?)";
+                    + "      ,[MajorName]\n"
+                    + "      ,[Status])\n"
+                    + "Values(?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             pstm = con.prepareStatement(sql);
             pstm.setString(1, major.getMajorId());
             pstm.setString(2, major.getMajorName());
+            pstm.setBoolean(3, true);
 
             check = pstm.executeUpdate() > 0;
         } finally {
@@ -88,25 +92,10 @@ public class MajorDAO {
         return check;
     }
 
-    public boolean delete(String id) throws Exception {
-        boolean check = false;
-        try {
-            String sql = "Delete From Major\n"
-                    + "Where MajorId=?";
-            DBUtils db = new DBUtils();
-            con = db.makeConnection();
-            pstm = con.prepareStatement(sql);
-            pstm.setString(1, id);
-            check = pstm.executeUpdate() > 0;
-        } finally {
-            closeConnection();
-        }
-        return check;
-    }
-
-    public boolean update(MajorDTO major) throws Exception {
+    public boolean delete(MajorDTO major) throws Exception {
         String sql = "UPDATE [StudentCV].[dbo].[Major] SET"
                 + "      ,[MajorName]=?\n"
+                + "      ,[Status]=?\n"
                 + " WHERE MajorId=?";
         try {
             con = DBUtils.makeConnection();
@@ -115,6 +104,29 @@ public class MajorDAO {
 
                 pstm.setString(1, major.getMajorName());
                 pstm.setString(2, major.getMajorId());
+                pstm.setBoolean(3, false);
+                pstm.executeUpdate();
+                return true;
+            }
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
+
+    public boolean update(MajorDTO major) throws Exception {
+        String sql = "UPDATE [StudentCV].[dbo].[Major] SET"
+                + "      ,[MajorName]=?\n"
+                + "      ,[Status]=?\n"
+                + " WHERE MajorId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+
+                pstm.setString(1, major.getMajorName());
+                pstm.setString(2, major.getMajorId());
+                pstm.setBoolean(3, major.isStatus());
                 pstm.executeUpdate();
                 return true;
             }
@@ -129,6 +141,7 @@ public class MajorDAO {
         try {
             String sql = "SELECT [MajorId]\n"
                     + "      ,[MajorName]\n"
+                    + "      ,[Status]\n"
                     + "  FROM [StudentCV].[dbo].[Major]"
                     + "Where MajorId=?\n";
             DBUtils db = new DBUtils();
@@ -138,8 +151,9 @@ public class MajorDAO {
             rs = pstm.executeQuery();
             if (rs.next()) {
                 String name = rs.getString("MajorName");
+                boolean status = rs.getBoolean("Status");
 
-                result = new MajorDTO(id, name);
+                result = new MajorDTO(id, name, status);
             }
         } finally {
             closeConnection();
