@@ -20,7 +20,6 @@ import javax.naming.NamingException;
  */
 public class Stu_JobDAO {
 
-
     private Connection con = null;
     private PreparedStatement pstm = null;
     private ResultSet rs = null;
@@ -42,10 +41,10 @@ public class Stu_JobDAO {
 
     public ArrayList<Stu_JobDTO> getAllStu_Job() throws NamingException, SQLException {
 
-        String sql = "SELECT [Stu_Job]\n"
-                + "      ,[StudentId]\n"
+        String sql = "SELECT [StudentId]\n"
                 + "      ,[JobId]\n"
-                + "  FROM [StudentCV].[dbo].[Stu_Major]";
+                + "      ,[Status]\n"
+                + "  FROM [StudentCV].[dbo].[Stu_Job]";
 
         ArrayList<Stu_JobDTO> lst = new ArrayList<>();
 
@@ -58,14 +57,15 @@ public class Stu_JobDAO {
 
                 while (rs.next()) {
                     int stuId = rs.getInt("StudentId");
-                    String majorId = rs.getString("MajorId");
+                    int jobId = rs.getInt("JobId");
+                    boolean status = rs.getBoolean("Status");
 
                     StudentDAO stuDao = new StudentDAO();
-                    MajorDAO majorDao = new MajorDAO();
+                    JobDAO jobDao = new JobDAO();
 
-                    Stu_MajorDTO stu_major = new Stu_MajorDTO(stuDao.getStudentById(stuId), majorDao.getMajorById(majorId));
+                    Stu_JobDTO stu_Job = new Stu_JobDTO(stuDao.getStudentById(stuId), jobDao.getJobById(jobId), status);
 
-                    lst.add(stu_major);
+                    lst.add(stu_Job);
                 }
             }
         } catch (Exception e) {
@@ -76,18 +76,20 @@ public class Stu_JobDAO {
         return lst;
     }
 
-    public boolean insert(Stu_MajorDTO stu_major) throws SQLException {
+    public boolean insert(Stu_JobDTO stu_job) throws SQLException {
         boolean check = false;
         try {
-            String sql = "Insert Into [StudentCV].[dbo].[Stu_Major]"
+            String sql = "Insert Into [StudentCV].[dbo].[Stu_Job]"
                     + "(      [StudentId]\n"
-                    + "      ,[MajorId])\n"
-                    + "Values(?,?)";
+                    + "      ,[JobId]\n"
+                    + "      ,[Status])\n"
+                    + "Values(?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             pstm = con.prepareStatement(sql);
-            pstm.setInt(1, stu_major.getStudent().getStudentId());
-            pstm.setString(2, stu_major.getMajor().getMajorId());
+            pstm.setInt(1, stu_job.getStudent().getStudentId());
+            pstm.setInt(2, stu_job.getJob().getJobId());
+            pstm.setBoolean(3, true);
 
             check = pstm.executeUpdate() > 0;
         } finally {
@@ -96,6 +98,12 @@ public class Stu_JobDAO {
 
         return check;
     }
-}
 
+    public boolean update(Stu_JobDTO stu_job) {
+        boolean check = false;
+        String sql = "UPDATE [StudentCV].[dbo].[Stu_Job] SET"
+                + "Status=?"
+                + "WHERE StudentId=? AND JobId=?";
+        return check;
+    }
 }
