@@ -40,6 +40,7 @@ public class Stu_MajorDAO {
         String sql = "SELECT [Stu_Major]\n"
                 + "      ,[StudentId]\n"
                 + "      ,[MajorId]\n"
+                + "      ,[Status]\n"
                 + "  FROM [StudentCV].[dbo].[Stu_Major]";
 
         ArrayList<Stu_MajorDTO> lst = new ArrayList<>();
@@ -54,11 +55,12 @@ public class Stu_MajorDAO {
                 while (rs.next()) {
                     int stuId = rs.getInt("StudentId");
                     String majorId = rs.getString("MajorId");
+                    boolean status = rs.getBoolean("Status");
 
                     StudentDAO stuDao = new StudentDAO();
                     MajorDAO majorDao = new MajorDAO();
 
-                    Stu_MajorDTO stu_major = new Stu_MajorDTO(stuDao.getStudentById(stuId), majorDao.getMajorById(majorId));
+                    Stu_MajorDTO stu_major = new Stu_MajorDTO(stuDao.getStudentById(stuId), majorDao.getMajorById(majorId), status);
 
                     lst.add(stu_major);
                 }
@@ -76,13 +78,15 @@ public class Stu_MajorDAO {
         try {
             String sql = "Insert Into [StudentCV].[dbo].[Stu_Major]"
                     + "(      [StudentId]\n"
-                    + "      ,[MajorId])\n"
-                    + "Values(?,?)";
+                    + "(      [MajorId]\n"
+                    + "      ,[Status])\n"
+                    + "Values(?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             pstm = con.prepareStatement(sql);
             pstm.setInt(1, stu_major.getStudent().getStudentId());
             pstm.setString(2, stu_major.getMajor().getMajorId());
+            pstm.setBoolean(3, true);
 
             check = pstm.executeUpdate() > 0;
         } finally {
@@ -90,5 +94,47 @@ public class Stu_MajorDAO {
         }
 
         return check;
+    }
+    
+    public boolean update(Stu_MajorDTO stu_major) throws Exception {
+        String sql = "UPDATE [StudentCV].[dbo].[Stu_Major] SET"
+                + "      ,[Status]=?\n"
+                + " WHERE MajorId=? AND StudentId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+
+                pstm.setBoolean(1, stu_major.isStatus());
+                pstm.setString(2, stu_major.getMajor().getMajorId());
+                pstm.setInt(3, stu_major.getStudent().getStudentId());
+                pstm.executeUpdate();
+                return true;
+            }
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
+    
+    public boolean delete(Stu_MajorDTO stu_major) throws Exception {
+        String sql = "UPDATE [StudentCV].[dbo].[Stu_Major] SET"
+                + "      ,[Status]=?\n"
+                + " WHERE MajorId=? AND StudentId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+
+                pstm.setBoolean(1, false);
+                pstm.setString(2, stu_major.getMajor().getMajorId());
+                pstm.setInt(3, stu_major.getStudent().getStudentId());
+                pstm.executeUpdate();
+                return true;
+            }
+        } finally {
+            closeConnection();
+        }
+        return false;
     }
 }
