@@ -14,7 +14,7 @@ public class StudentDTO {
     public int studentId;
     public String jobPosition;
     public String eduQua;
-    public String experience;
+    public int experience;
     public String stuName;
     public String phoneNum;
     public String addr;
@@ -24,7 +24,7 @@ public class StudentDTO {
     public StudentDTO() {
     }
 
-    public StudentDTO(int studentId, String jobPosition, String eduQua, String experience, String stuName, String phoneNum, String addr, String email, boolean status) {
+    public StudentDTO(int studentId, String jobPosition, String eduQua, int experience, String stuName, String phoneNum, String addr, String email, boolean status) {
         this.studentId = studentId;
         this.jobPosition = jobPosition;
         this.eduQua = eduQua;
@@ -68,11 +68,11 @@ public class StudentDTO {
         this.eduQua = eduQua;
     }
 
-    public String getExperience() {
+    public int getExperience() {
         return experience;
     }
 
-    public void setExperience(String experience) {
+    public void setExperience(int experience) {
         this.experience = experience;
     }
 
