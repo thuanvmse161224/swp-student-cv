@@ -61,7 +61,7 @@ public class StudentDAO {
                     int id = rs.getInt("StudentId");
                     String job = rs.getString("JobPosition");
                     String edu = rs.getString("EduQua");
-                    String exp = rs.getString("Experience");
+                    int exp = rs.getInt("Experience");
                     String name = rs.getString("StuName");
                     String phone = rs.getString("PhoneNum");
                     String addr = rs.getString("Addr");
@@ -99,7 +99,7 @@ public class StudentDAO {
             pstm = con.prepareStatement(sql);
             pstm.setString(1, stu.getJobPosition());
             pstm.setString(2, stu.getEduQua());
-            pstm.setString(3, stu.getExperience());
+            pstm.setInt(3, stu.getExperience());
             pstm.setString(4, stu.getStuName());
             pstm.setString(5, stu.getPhoneNum());
             pstm.setString(6, stu.getAddr());
@@ -148,12 +148,13 @@ public class StudentDAO {
 
                 pstm.setString(1, stu.getJobPosition());
                 pstm.setString(2, stu.getEduQua());
-                pstm.setString(3, stu.getStuName());
-                pstm.setString(4, stu.getPhoneNum());
-                pstm.setString(5, stu.getAddr());
-                pstm.setString(6, stu.getEmail());
-                pstm.setBoolean(7, stu.isStatus());
-                pstm.setInt(8, stu.getStudentId());
+                pstm.setInt(3,stu.getExperience());
+                pstm.setString(4, stu.getStuName());
+                pstm.setString(5, stu.getPhoneNum());
+                pstm.setString(8, stu.getAddr());
+                pstm.setString(7, stu.getEmail());
+                pstm.setBoolean(8, stu.isStatus());
+                pstm.setInt(9, stu.getStudentId());
                 pstm.executeUpdate();
                 return true;
             }
@@ -185,7 +186,7 @@ public class StudentDAO {
             if (rs.next()) {
                 String jobPosition = rs.getString("JobPosition");
                 String eduQua = rs.getString("EduQua");
-                String experience = rs.getString("Experience");
+                int experience = rs.getInt("Experience");
                 String stuName = rs.getString("StuName");
                 String phoneNum = rs.getString("PhoneNum");
                 String addr = rs.getString("Addr");
