@@ -141,7 +141,7 @@ public class CV_DAO {
                 + "      ,([StudentId]\n"
                 + "      ,[Status])\n"
                 + "Values(?,?)"
-                + " WHERE CvId=?";
+                + " WHERE CompanyId=?";
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
