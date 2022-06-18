@@ -45,21 +45,18 @@ public class CareerDAO {
         String sql = "Select CareerId,\n"
                 + "	CareerName,\n"
                 + "     Status\n"
-                + "From Job\n";
+                + "From Career\n";
         ArrayList<CareerDTO> lst = new ArrayList<>();
         try {
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             rs = pstm.executeQuery();
             if (rs.next()) {
-                String cid = rs.getString("CompanyId");
-                String spec = rs.getString("Specialization");
-                String email = rs.getString("Email");
-                String phonenum = rs.getString("PhoneNumber");
-                String address = rs.getString("Addr");
+                int cid = rs.getInt("CareerId");
+                String cname = rs.getString("CareerName");
                 Boolean status = rs.getBoolean("Status");
-                CompanyDTO company = new CompanyDTO(cid, spec, email, phonenum, address, status);
-                lst.add(company);
+                CareerDTO career = new CareerDTO(cid, cname, status);
+                lst.add(career);
             }
         } finally {
             closeConnection();
@@ -67,15 +64,12 @@ public class CareerDAO {
         return lst;
     }
 
-    public CompanyDTO getCompanybyId(String id) throws NamingException, SQLException, Exception {
-        CompanyDTO result = null;
-        String sql = "Select Specialization,\n"
-                + "	Email,\n"
-                + "	PhoneNumber,\n"
-                + "	Addr,\n"
+    public CareerDTO getCareerById(int id) throws NamingException, SQLException, Exception {
+        CareerDTO result = null;
+        String sql = "Select CareerName,\n"
                 + "	Status\n"
-                + "From Company\n"
-                + "Where CompanyId =?";
+                + "From Career\n"
+                + "Where CareerId =?";
 
         try {
             con = DBUtils.makeConnection();
@@ -83,15 +77,11 @@ public class CareerDAO {
             if (con != null) {
                 pstm = con.prepareStatement(sql);
                 rs = pstm.executeQuery();
-                pstm.setString(1, id);
+                pstm.setInt(1, id);
                 while (rs.next()) {
-                    String cid = rs.getString("CompanyId");
-                    String spec = rs.getString("Specialization");
-                    String email = rs.getString("Email");
-                    String phonenum = rs.getString("PhoneNumber");
-                    String address = rs.getString("Addr");
+                    String cname = rs.getString("CareerName");                   
                     Boolean status = rs.getBoolean("Status");
-                    result = new CompanyDTO(cid, spec, email, phonenum, address, status);
+                    result = new CareerDTO(id, cname, status);
 
                 }
             }
@@ -103,27 +93,21 @@ public class CareerDAO {
         return result;
     }
 
-    public boolean insert(CompanyDTO company) throws SQLException, Exception {
+    public boolean insert(CareerDTO c) throws SQLException, Exception {
         boolean check = false;
         try {
-            String sql = "Insert Into [StudentCV].[dbo].[Company]"
-                    + "      ,([CompanyId]\n"
-                    + "      ,([Specialization]\n"
-                    + "      ,([Email]\n"
-                    + "      ,([PhoneNumber]\n"
-                    + "      ,[Addr])\n"
+            String sql = "Insert Into [StudentCV].[dbo].[Career]"
+                    + "      ,([CareerId]\n"
+                    + "      ,([CareerName]\n"
                     + "      ,[Status])\n"
-                    + "Values(?,?,?,?,?,?)";
+                    + "Values(?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
 
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, company.getCompanyId());
-            pstm.setString(2, company.getSpecialization());
-            pstm.setString(3, company.getEmail());
-            pstm.setString(4, company.getPhoneNumber());
-            pstm.setString(5, company.getAddr());
-            pstm.setBoolean(6, company.isStatus());
+            pstm.setInt(1, c.getCareerId());
+            pstm.setString(2, c.getCareerName());
+            pstm.setBoolean(3, c.isStatus());
             check = pstm.executeUpdate() > 0;
         } finally {
             closeConnection();
@@ -132,17 +116,17 @@ public class CareerDAO {
         return check;
     }
 
-    public boolean delete(CompanyDTO c) throws Exception {
+    public boolean delete(CareerDTO c) throws Exception {
         boolean check = false;
         try {
-            String sql = "UPDATE [StudentCV].[dbo].[Company] SET"
+            String sql = "UPDATE [StudentCV].[dbo].[Career] SET"
                     + "      ,[Status]=?\n"
-                    + " WHERE CompanyId=?";
+                    + " WHERE CareerId=?";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             pstm = con.prepareStatement(sql);
             pstm.setBoolean(1, c.isStatus());
-            pstm.setString(2, c.getCompanyId());
+            pstm.setInt(2, c.getCareerId());
             check = pstm.executeUpdate() > 0;
         } finally {
             closeConnection();
@@ -150,27 +134,21 @@ public class CareerDAO {
         return check;
     }
 
-    public boolean update(CompanyDTO c) throws Exception {
-        String sql = "UPDATE [StudentCV].[dbo].[Company] SET"
+    public boolean update(CareerDTO c) throws Exception {
+        String sql = "UPDATE [StudentCV].[dbo].[Career] SET"
                 + "      ,([Specialization]\n"
-                + "      ,([Email]\n"
-                + "      ,([PhoneNumber]\n"
-                + "      ,[Addr])\n"
+                + "      ,([CareerName]\n"
                 + "      ,[Status])\n"
-                + "Values(?,?,?,?,?)"
-                + " WHERE CompanyId=?";
+                + "Values(?,?,)"
+                + " WHERE CareerId=?";
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
                 pstm = con.prepareStatement(sql);
 
-                pstm.setString(1, c.getSpecialization());
-                pstm.setString(2, c.getEmail());
-                pstm.setString(3, c.getPhoneNumber());
-                pstm.setString(5, c.getAddr());
-                pstm.setBoolean(6, c.isStatus());
-                pstm.setString(7, c.getCompanyId());
-
+                pstm.setInt(1, c.getCareerId());
+                pstm.setString(2, c.getCareerName());
+                pstm.setBoolean(3, c.isStatus());
                 pstm.executeUpdate();
                 return true;
             }
