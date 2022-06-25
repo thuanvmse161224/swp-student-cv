@@ -5,7 +5,6 @@
 package com.studentCV.DAO;
 
 import com.studentCV.DTO.CV_DTO;
-import com.studentCV.DTO.CompanyDTO;
 import com.studentCV.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
