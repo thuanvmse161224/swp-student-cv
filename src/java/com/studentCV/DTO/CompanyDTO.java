@@ -12,6 +12,7 @@ package com.studentCV.DTO;
 public class CompanyDTO {
 
     public String companyId;
+    public String companyName;
     public String specialization;
     public String email;
     public String phoneNumber;
@@ -21,13 +22,22 @@ public class CompanyDTO {
     public CompanyDTO() {
     }
 
-    public CompanyDTO(String companyId, String specialization, String email, String phoneNumber, String addr, boolean status) {
+    public CompanyDTO(String companyId, String companyName ,String specialization, String email, String phoneNumber, String addr, boolean status) {
         this.companyId = companyId;
+        this.companyName = companyName;
         this.specialization = specialization;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.addr = addr;
         this.status = status;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public boolean isStatus() {
