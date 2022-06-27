@@ -81,7 +81,7 @@ public class StudentDAO {
         return lst;
     }
 
-    public boolean insert(StudentDTO stu) throws SQLException {
+    public boolean insert(StudentDTO stu) throws SQLException, NamingException {
         boolean check = false;
         try {
             String sql = "Insert Into [StudentCV].[dbo].[Student]"
@@ -148,7 +148,7 @@ public class StudentDAO {
 
                 pstm.setString(1, stu.getJobPosition());
                 pstm.setString(2, stu.getEduQua());
-                pstm.setInt(3,stu.getExperience());
+                pstm.setInt(3, stu.getExperience());
                 pstm.setString(4, stu.getStuName());
                 pstm.setString(5, stu.getPhoneNum());
                 pstm.setString(8, stu.getAddr());
@@ -167,16 +167,16 @@ public class StudentDAO {
     public StudentDTO getStudentById(int id) throws Exception {
         StudentDTO result = null;
         try {
-            String sql = "\"SELECT [StudentId]\n"
-                    + "                + \"      ,[JobPosition]\n"
-                    + "                + \"      ,[EduQua]\n"
-                    + "                + \"      ,[Experience]\n"
-                    + "                + \"      ,[StuName]\n"
-                    + "                + \"      ,[PhoneNum]\n"
-                    + "                + \"      ,[Addr]\n"
-                    + "                + \"      ,[Email]\n"
-                    + "                + \"      ,[Status]\n"
-                    + "                + \"  FROM [StudentCV].[dbo].[Student]\n"
+            String sql = "SELECT [StudentId]\n"
+                    + " ,[JobPosition]\n"
+                    + ",[EduQua]\n"
+                    + " ,[Experience]\n"
+                    + " ,[StuName]\n"
+                    + " ,[PhoneNum]\n"
+                    + " ,[Addr]\n"
+                    + " ,[Email]\n"
+                    + " ,[Status]\n"
+                    + " FROM [StudentCV].[dbo].[Student]\n"
                     + "Where StudentId=?\n";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
@@ -191,6 +191,33 @@ public class StudentDAO {
                 String phoneNum = rs.getString("PhoneNum");
                 String addr = rs.getString("Addr");
                 String email = rs.getString("Email");
+                boolean status = rs.getBoolean("Status");
+                result = new StudentDTO(id, jobPosition, eduQua, experience, stuName, phoneNum, addr, email, status);
+            }
+        } finally {
+            closeConnection();
+        }
+        return result;
+    }
+
+    public StudentDTO getStudentByEmail(String email) throws Exception {
+        StudentDTO result = null;
+        try {
+            String sql = "SELECT [StudentId],[JobPosition],[EduQua],[Experience],[StuName],[PhoneNum],[Addr],[Email],[Status]\n"
+                    + "FROM [StudentCV].[dbo].[Student]\n"
+                    + "Where Email like '"+email+"'";
+            DBUtils db = new DBUtils();
+            con = db.makeConnection();
+            pstm = con.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            if (rs.next()) {
+                String jobPosition = rs.getString("JobPosition");
+                String eduQua = rs.getString("EduQua");
+                int experience = rs.getInt("Experience");
+                String stuName = rs.getString("StuName");
+                String phoneNum = rs.getString("PhoneNum");
+                String addr = rs.getString("Addr");
+                int id = rs.getInt("StudentID");
                 boolean status = rs.getBoolean("Status");
                 result = new StudentDTO(id, jobPosition, eduQua, experience, stuName, phoneNum, addr, email, status);
             }

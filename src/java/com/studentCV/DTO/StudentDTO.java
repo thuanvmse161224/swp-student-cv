@@ -24,6 +24,10 @@ public class StudentDTO {
     public StudentDTO() {
     }
 
+    public StudentDTO(String email) {
+        this.email = email;
+    }
+
     public StudentDTO(int studentId, String jobPosition, String eduQua, int experience, String stuName, String phoneNum, String addr, String email, boolean status) {
         this.studentId = studentId;
         this.jobPosition = jobPosition;

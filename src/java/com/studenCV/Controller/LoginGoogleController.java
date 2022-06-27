@@ -2,22 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.testFolder.Test;
+package com.studenCV.Controller;
 
+import com.studentCV.DAO.StudentDAO;
+import com.studentCV.DTO.StudentDTO;
+import com.studentCV.DTO.UserGoogleDTO;
+import com.studentCV.utils.GoogleUtils;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author tungn
+ * @author Asus
  */
-@WebServlet(name = "TestServlet", urlPatterns = {"/TestServlet"})
-public class TestServlet extends HttpServlet {
+public class LoginGoogleController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,7 +32,36 @@ public class TestServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("index.jsp");
+        String s = "http://localhost:8080/LoginGoogleController?code=4/0AX4XfWhJhFoZMxnRkRfKNi1emFx4gkepXo0OCbEz_Yt7ZpcaJCVBTXtDKJfJSgtbYs1XQg&scope=email%20https://www.googleapis.com/auth/userinfo.email%20openid&authuser=1&hd=fpt.edu.vn&prompt=consent";
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        String code = request.getParameter("code");
+        try {
+            if (code == null || code.isEmpty()) {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                String accessToken = GoogleUtils.getToken(code);
+                UserGoogleDTO googlePojo = GoogleUtils.getUserInfo(accessToken);
+                request.setAttribute("id", googlePojo.getId());
+                request.setAttribute("name", googlePojo.getName());
+                request.setAttribute("email", googlePojo.getEmail());
+                System.out.println(googlePojo.getEmail());
+                System.out.println(googlePojo.getId());
+                StudentDAO sDao = new StudentDAO();
+                StudentDTO sDto = sDao.getStudentByEmail(googlePojo.getEmail());
+                if (sDto != null) {
+                    session.setAttribute("USER", sDto);
+                } else {
+                    StudentDTO std = new StudentDTO(googlePojo.getEmail());
+                    sDao.insert(std);
+                    session.setAttribute("USER", std);
+                }
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
