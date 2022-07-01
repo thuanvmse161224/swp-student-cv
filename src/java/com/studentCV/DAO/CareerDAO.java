@@ -5,7 +5,6 @@
 package com.studentCV.DAO;
 
 import com.studentCV.DTO.CareerDTO;
-import com.studentCV.DTO.CompanyDTO;
 import com.studentCV.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -139,7 +138,7 @@ public class CareerDAO {
                 + "      ,([Specialization]\n"
                 + "      ,([CareerName]\n"
                 + "      ,[Status])\n"
-                + "Values(?,?,)"
+                + "Values(?,?,?)"
                 + " WHERE CareerId=?";
         try {
             con = DBUtils.makeConnection();

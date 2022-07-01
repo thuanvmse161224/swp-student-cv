@@ -5,6 +5,8 @@
  */
 package com.studentCV.DTO;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author minhh
@@ -14,21 +16,30 @@ public class JobDTO {
     public int jobId;
     public CompanyDTO company;
     public String jobReq;
-    public String vacancies;
+    public String jobName;
     public float salary;
-    public String jobInf;
+    public String jobType;
+    public String jobLocation;
+    public String jobExperience;
+    public LocalDate jobPostDate;
+    public String jobDescription;
     public boolean status;
 
     public JobDTO() {
     }
 
-    public JobDTO(int jobId, CompanyDTO company, String jobReq, String vacancies, float salary, String jobInf, boolean status) {
+
+    public JobDTO(int jobId, CompanyDTO company, String jobReq, String jobName, float salary, String jobType, String jobLocation, String jobExperience, LocalDate jobPostDate, String jobDescription, boolean status) {
         this.jobId = jobId;
         this.company = company;
         this.jobReq = jobReq;
-        this.vacancies = vacancies;
+        this.jobName = jobName;
         this.salary = salary;
-        this.jobInf = jobInf;
+        this.jobType = jobType;
+        this.jobLocation = jobLocation;
+        this.jobExperience = jobExperience;
+        this.jobPostDate = jobPostDate;
+        this.jobDescription = jobDescription;
         this.status = status;
     }
 
@@ -64,13 +75,54 @@ public class JobDTO {
         this.jobReq = jobReq;
     }
 
-    public String getVacancies() {
-        return vacancies;
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setVacancies(String vacancies) {
-        this.vacancies = vacancies;
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
+
+    public String getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(String jobType) {
+        this.jobType = jobType;
+    }
+
+    public String getJobLocation() {
+        return jobLocation;
+    }
+
+    public void setJobLocation(String jobLocation) {
+        this.jobLocation = jobLocation;
+    }
+
+    public String getJobExperience() {
+        return jobExperience;
+    }
+
+    public void setJobExperience(String jobExperience) {
+        this.jobExperience = jobExperience;
+    }
+
+    public LocalDate getJobPostDate() {
+        return jobPostDate;
+    }
+
+    public void setJobPostDate(LocalDate jobPostDate) {
+        this.jobPostDate = jobPostDate;
+    }
+
+    public String getJobDescription() {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
+    }
+
 
     public float getSalary() {
         return salary;
@@ -80,12 +132,6 @@ public class JobDTO {
         this.salary = salary;
     }
 
-    public String getJobInf() {
-        return jobInf;
-    }
 
-    public void setJobInf(String jobInf) {
-        this.jobInf = jobInf;
-    }
 
 }

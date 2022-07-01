@@ -20,13 +20,14 @@ import javax.naming.NamingException;
  * @author Asus
  */
 public class CV_CompanyDAO {
-     private Connection con = null;
+
+    private Connection con = null;
     private PreparedStatement pstm = null;
     private ResultSet rs = null;
-    
+
     public CV_CompanyDAO() {
     }
-    
+
     private void closeConnection() throws SQLException {
         if (rs != null) {
             rs.close();
@@ -38,23 +39,23 @@ public class CV_CompanyDAO {
             con.close();
         }
     }
-    
+
     public ArrayList<CV_CompanyDTO> getAllCv_Company() throws NamingException, SQLException {
-        
+
         String sql = "SELECT [CvId]\n"
                 + "      ,[CompanyId]\n"
                 + "      ,[Status]\n"
                 + "  FROM [StudentCV].[dbo].[CV_company]";
-        
+
         ArrayList<CV_CompanyDTO> lst = new ArrayList<>();
-        
+
         try {
             con = DBUtils.makeConnection();
-            
+
             if (con != null) {
                 pstm = con.prepareStatement(sql);
                 rs = pstm.executeQuery();
-                
+
                 while (rs.next()) {
                     int cvId = rs.getInt("CvId");
                     String coId = rs.getString("CompanyId");
@@ -62,9 +63,9 @@ public class CV_CompanyDAO {
 
                     CV_DAO cvDAO = new CV_DAO();
                     CompanyDAO coDAO = new CompanyDAO();
-                    
-                    CV_CompanyDTO cv_com = new CV_CompanyDTO(cvDAO.getCVbyID(cvId), coDAO.getCompanybyId(coId),status);
-                    
+
+                    CV_CompanyDTO cv_com = new CV_CompanyDTO(cvDAO.getCVbyID(cvId), coDAO.getCompanybyId(coId), status);
+
                     lst.add(cv_com);
                 }
             }
@@ -75,26 +76,71 @@ public class CV_CompanyDAO {
         }
         return lst;
     }
-    
-    public boolean insert(Stu_JobDTO stu_job) throws SQLException {
+
+    public boolean insert(CV_CompanyDTO cv_com) throws SQLException {
         boolean check = false;
         try {
-            String sql = "Insert Into [StudentCV].[dbo].[Stu_Job]"
-                    + "(      [StudentId]\n"
-                    + "      ,[MajorId])\n"
+            String sql = "Insert Into [StudentCV].[dbo].[CV_company]"
+                    + "      ,[CompanyId])\n"
                     + "      ,[Status])\n"
-                    + "Values(?,?,?)";
+                    + "Values(?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
             pstm = con.prepareStatement(sql);
-            pstm.setInt(1, stu_job.getStudent().getStudentId());
-            pstm.setInt(2, stu_job.getJob().getJobId());
-            
+            pstm.setString(1, cv_com.getCompany().getCompanyId());
+            pstm.setBoolean(2, cv_com.isStatus());
+
             check = pstm.executeUpdate() > 0;
         } finally {
             closeConnection();
         }
-        
+
+        return check;
+    }
+
+    public boolean update(CV_CompanyDTO cv_com) throws SQLException {
+        boolean check = false;
+        String sql = "UPDATE [StudentCV].[dbo].[CV_company] SET"
+                + "Status=?"            
+                + "WHERE CvId=? AND CompanyId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+                pstm.setBoolean(1, cv_com.isStatus());
+                pstm.setInt(2, cv_com.getCv().getCvId());
+                pstm.setString(3, cv_com.getCompany().getCompanyId());
+
+                check = pstm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return check;
+    }
+
+    public boolean delete(CV_CompanyDTO cv_com) throws SQLException {
+        boolean check = false;
+        String sql = "UPDATE [StudentCV].[dbo].[CV_company] SET"
+                + "Status=?"            
+                + "WHERE CvId=? AND CompanyId=?";
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+                pstm.setBoolean(1, cv_com.isStatus());
+                pstm.setInt(2, cv_com.getCv().getCvId());
+                pstm.setString(3, cv_com.getCompany().getCompanyId());
+
+                check = pstm.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
         return check;
     }
 }

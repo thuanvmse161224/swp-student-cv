@@ -4,13 +4,13 @@
  */
 package com.studentCV.DAO;
 
-
 import com.studentCV.DTO.JobDTO;
 import com.studentCV.utils.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.naming.NamingException;
 
@@ -45,9 +45,13 @@ public class JobDAO {
         String sql = "Select JobId,\n"
                 + "	CompanyId,\n"
                 + "	JobReq,\n"
-                + "	Vacancies,\n"
+                + "	JobName,\n"
                 + "	Salary,\n"
-                + "	JobInf\n"
+                + "	JobType\n"
+                + "	JobLocation\n"
+                + "	JobExperince\n"
+                + "	JobPostDate\n"
+                + "	JobDescription\n"
                 + "     Status\n"
                 + "From Job\n";
         ArrayList<JobDTO> lst = new ArrayList<>();
@@ -59,14 +63,18 @@ public class JobDAO {
                 int jid = rs.getInt("JobId");
                 String cid = rs.getString("CompanyId");
                 String jreq = rs.getString("JobReq");
-                String vac = rs.getString("Vacancies");
+                String jname = rs.getString("JobName");
                 Float salary = rs.getFloat("Salary");
-                String jinf = rs.getString("JobInf");
+                String jtype = rs.getString("JobType");
+                String jloc = rs.getString("JobLocation");
+                String jexp = rs.getString("JobExperince");
+                LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
+                String jdes = rs.getString("JobDescription");
                 Boolean status = rs.getBoolean("Status");
 
                 CompanyDAO c = new CompanyDAO();
 
-                JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jreq, vac, salary, jinf, status);
+                JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloc, jexp, jpdate, jdes, status);
                 lst.add(job);
             }
         } finally {
@@ -79,9 +87,14 @@ public class JobDAO {
         JobDTO result = null;
         String sql = "Select CompanyId,\n"
                 + "	JobReq,\n"
-                + "	Vacancies,\n"
+                + "	JobName,\n"
                 + "	Salary,\n"
-                + "	JobInf\n"
+                + "	JobType\n"
+                + "	JobLocation\n"
+                + "	JobExperince\n"
+                + "	JobPostDate\n"
+                + "	JobDescription\n"
+                + "     Status\n"
                 + "From Job\n"
                 + "Where JobId =?";
 
@@ -94,13 +107,17 @@ public class JobDAO {
                 pstm.setInt(1, id);
                 while (rs.next()) {
                     String cid = rs.getString("CompanyId");
+                    String jname = rs.getString("JobName");
                     String jreq = rs.getString("JobReq");
-                    String vaca = rs.getString("Vacancies");
                     float salary = rs.getFloat("Salary");
-                    String jinf = rs.getString("JobInf");
+                    String jtype = rs.getString("JobType");
+                    String jloca = rs.getString("JobLocation");
+                    String jexp = rs.getString("JobExperince");
+                    LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
+                    String jdes = rs.getString("JobDescription");
                     Boolean status = rs.getBoolean("Status");
                     CompanyDAO c = new CompanyDAO();
-                    result = new JobDTO(id, c.getCompanybyId(cid), jreq, vaca, salary, jinf, status);
+                    result = new JobDTO(id, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloca, jexp, jpdate, jdes, status);
 
                 }
             }
@@ -118,23 +135,31 @@ public class JobDAO {
             String sql = "Insert Into [StudentCV].[dbo].[Job]"
                     + "      ,([JobId]\n"
                     + "      ,([CompanyId]\n"
+                    + "      ,([JobName]\n"
                     + "      ,([JobReq]\n"
-                    + "      ,([Vacancies]\n"
                     + "      ,([Salary]\n"
-                    + "      ,[JobInf])\n"
+                    + "      ,([JobType]\n"
+                    + "      ,([JobLocation]\n"
+                    + "      ,[JobExperince])\n"
+                    + "      ,[JobPostDate])\n"
+                    + "      ,[JobDescription])\n"
                     + "      ,[Status])\n"
-                    + "Values(?,?,?,?,?,?,?)";
+                    + "Values(?,?,?,?,?,?,?,?,?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
 
             pstm = con.prepareStatement(sql);
             pstm.setInt(1, job.getJobId());
             pstm.setString(2, job.getCompany().getCompanyId());
-            pstm.setString(3, job.getJobReq());
-            pstm.setString(4, job.getVacancies());
+            pstm.setString(3, job.getJobName());
+            pstm.setString(4, job.getJobReq());
             pstm.setFloat(5, job.getSalary());
-            pstm.setString(6, job.getJobInf());
-            pstm.setBoolean(7, job.isStatus());
+            pstm.setString(6, job.getJobType());
+            pstm.setString(7, job.getJobLocation());
+            pstm.setString(8, job.getJobExperience());
+            pstm.setDate(9, java.sql.Date.valueOf(job.getJobPostDate()));
+            pstm.setString(10, job.getJobDescription());
+            pstm.setBoolean(11, job.isStatus());
             check = pstm.executeUpdate() > 0;
         } finally {
             closeConnection();
@@ -163,25 +188,34 @@ public class JobDAO {
 
     public boolean update(JobDTO job) throws Exception {
         String sql = "UPDATE [StudentCV].[dbo].[Job] SET"
-                + "      ,[CompanyId]=?\n"
-                + "      ,[JobReq]=?\n"
-                + "      ,[Vacacines]=?\n"
-                + "      ,[Salary]=?\n"
-                + "      ,[JobInf]=?\n"
-                + "      ,[Status]=?\n"
+                + "      ,([JobId]\n"
+                + "      ,([CompanyId]\n"
+                + "      ,([JobName]\n"
+                + "      ,([JobReq]\n"
+                + "      ,([Salary]\n"
+                + "      ,([JobType]\n"
+                + "      ,([JobLocation]\n"
+                + "      ,[JobExperince])\n"
+                + "      ,[JobPostDate])\n"
+                + "      ,[JobDescription])\n"
+                + "      ,[Status])\n"
+                + "Values(?,?,?,?,?,?,?,?,?,?,?)"
                 + " WHERE JobId=?";
         try {
             con = DBUtils.makeConnection();
             if (con != null) {
                 pstm = con.prepareStatement(sql);
-
-                pstm.setString(1, job.getCompany().getCompanyId());
-                pstm.setString(2, job.getJobReq());
-                pstm.setString(3, job.getVacancies());
-                pstm.setFloat(4, job.getSalary());
-                pstm.setString(5, job.getJobInf());
-                pstm.setBoolean(6, job.isStatus());
-                pstm.setInt(7, job.getJobId());
+                pstm.setInt(1, job.getJobId());
+                pstm.setString(2, job.getCompany().getCompanyId());
+                pstm.setString(3, job.getJobName());
+                pstm.setString(4, job.getJobReq());
+                pstm.setFloat(5, job.getSalary());
+                pstm.setString(6, job.getJobType());
+                pstm.setString(7, job.getJobLocation());
+                pstm.setString(8, job.getJobExperience());
+                pstm.setDate(9, java.sql.Date.valueOf(job.getJobPostDate()));
+                pstm.setString(10, job.getJobDescription());
+                pstm.setBoolean(11, job.isStatus());
 
                 pstm.executeUpdate();
                 return true;
