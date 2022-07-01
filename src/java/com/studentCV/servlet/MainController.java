@@ -6,6 +6,7 @@
 package com.studentCV.servlet;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author ADMIN
  */
 public class MainController extends HttpServlet {
-    String START_PAGE="#";
-    String ERROR_PAGE="#";
+    private final String START_PAGE="#";
+    private final String ERROR_PAGE="#";
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -29,6 +30,28 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        String  button = request.getParameter("btnAction");
+        String url = START_PAGE;
+
+        try {
+            if (button == null) {
+                //url = COOKIES_CHECKED_CONTROLLER; 
+            } else {
+                /*
+                switch (button) {
+                case "Find Job": url = SEARCH_SERVLET; break;
+                case "A": break;
+                default: url = ERROR_PAGE; break;
+                }
+                */
+            }       
+        }
+        finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
+            //response.sendRedirect(url);
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
