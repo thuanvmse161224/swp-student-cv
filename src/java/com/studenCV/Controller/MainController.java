@@ -3,11 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package com.studentCV.servlet;
+package com.studenCV.Controller;
 
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +17,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
+
+@WebServlet(name="MainController", urlPatterns={"/MainController"})
 public class MainController extends HttpServlet {
     private final String START_PAGE="#";
     private final String ERROR_PAGE="#";
+    private final String SEARCH_CONTROLLER="searchJob";
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,13 +42,11 @@ public class MainController extends HttpServlet {
             if (button == null) {
                 //url = COOKIES_CHECKED_CONTROLLER; 
             } else {
-                /*
                 switch (button) {
-                case "Find Job": url = SEARCH_SERVLET; break;
+                case "Find Job": url = SEARCH_CONTROLLER; break;
                 case "A": break;
                 default: url = ERROR_PAGE; break;
                 }
-                */
             }       
         }
         finally {

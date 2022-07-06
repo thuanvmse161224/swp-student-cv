@@ -3,11 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package com.studentCV.servlet;
+package com.studenCV.Controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,10 +18,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-public class MainController extends HttpServlet {
-    private final String START_PAGE="#";
-    private final String ERROR_PAGE="#";
+@WebServlet(name="SearchJobServlet", urlPatterns={"/searchJob"})
+public class SearchJobServlet extends HttpServlet {
 
+    private final String SEARCH_PAGE    = "job_listing.jsp";
+    private final String ERROR_PAGE     = "job_listing.jsp";
+
+   
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -30,22 +35,14 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String  button = request.getParameter("btnAction");
-        String url = START_PAGE;
+        String url = ERROR_PAGE;
 
         try {
-            if (button == null) {
-                //url = COOKIES_CHECKED_CONTROLLER; 
-            } else {
-                /*
-                switch (button) {
-                case "Find Job": url = SEARCH_SERVLET; break;
-                case "A": break;
-                default: url = ERROR_PAGE; break;
-                }
-                */
-            }       
+            System.out.println("In search servlet");
+            //do search, call something
+            //out result
+            //get DAO
+            if (true) url = SEARCH_PAGE;
         }
         finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
