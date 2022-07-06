@@ -40,6 +40,7 @@ public class LoginGoogleController extends HttpServlet {
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
                 String accessToken = GoogleUtils.getToken(code);
+// edit bua
                 UserGoogleDTO googlePojo = GoogleUtils.getUserInfo(accessToken);
                 request.setAttribute("id", googlePojo.getId());
                 request.setAttribute("name", googlePojo.getName());
