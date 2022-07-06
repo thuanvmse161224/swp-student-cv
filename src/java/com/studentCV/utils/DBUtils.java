@@ -20,14 +20,10 @@ public class DBUtils {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             //2.Create connection
-<<<<<<< HEAD
-            String sqlConnectionString = "jdbc:sqlserver://localhost:1433;databaseName="
-                    + "StudentCV";
-            Connection con = DriverManager.getConnection(sqlConnectionString, "sa", "12345");
-=======
+
             String sqlConnectionString = "jdbc:sqlserver://localhost:1433;databaseName=StudentCV";
             Connection con = DriverManager.getConnection(sqlConnectionString, "sa", "1234567890");
->>>>>>> e7122316bf7cb3165b7b4f4a805b06bfaecbac3d
+
             return con;
         } catch (ClassNotFoundException | SQLException e) {
 
