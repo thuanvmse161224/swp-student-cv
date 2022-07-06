@@ -1,7 +1,7 @@
 use master
 go
-drop database StudentCV
-go
+--drop database StudentCV
+--go
 create database StudentCV
 go
 use StudentCV
@@ -58,14 +58,14 @@ go
 create table Job(
 	JobId int identity(1,1) PRIMARY KEY,
 	CompanyId nvarchar(50) foreign key references Company(CompanyId),
-	JobReq text,
+	JobReq ntext,
 	JobName nvarchar(50),
 	Salary float,
 	JobType nvarchar(50),
 	JobLocation nvarchar(255),
 	JobExperience int,
 	JobPostDate Date,
-	JobDescription text,
+	JobDescription ntext,
 	Status bit DEFAULT '1'
 )
 go
