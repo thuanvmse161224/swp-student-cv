@@ -58,24 +58,27 @@ public class JobDAO {
         try {
             DBUtils db = new DBUtils();
             con = db.makeConnection();
-            rs = pstm.executeQuery();
-            if (rs.next()) {
-                int jid = rs.getInt("JobId");
-                String cid = rs.getString("CompanyId");
-                String jreq = rs.getString("JobReq");
-                String jname = rs.getString("JobName");
-                Float salary = rs.getFloat("Salary");
-                String jtype = rs.getString("JobType");
-                String jloc = rs.getString("JobLocation");
-                String jexp = rs.getString("JobExperince");
-                LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
-                String jdes = rs.getString("JobDescription");
-                Boolean status = rs.getBoolean("Status");
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+                rs = pstm.executeQuery();
+                if (rs.next()) {
+                    int jid = rs.getInt("JobId");
+                    String cid = rs.getString("CompanyId");
+                    String jreq = rs.getString("JobReq");
+                    String jname = rs.getString("JobName");
+                    Float salary = rs.getFloat("Salary");
+                    String jtype = rs.getString("JobType");
+                    String jloc = rs.getString("JobLocation");
+                    String jexp = rs.getString("JobExperince");
+                    LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
+                    String jdes = rs.getString("JobDescription");
+                    Boolean status = rs.getBoolean("Status");
 
-                CompanyDAO c = new CompanyDAO();
+                    CompanyDAO c = new CompanyDAO();
 
-                JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloc, jexp, jpdate, jdes, status);
-                lst.add(job);
+                    JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloc, jexp, jpdate, jdes, status);
+                    lst.add(job);
+                }
             }
         } finally {
             closeConnection();
