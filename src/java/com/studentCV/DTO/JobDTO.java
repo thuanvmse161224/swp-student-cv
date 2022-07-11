@@ -5,13 +5,14 @@
  */
 package com.studentCV.DTO;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  *
  * @author minhh
  */
-public class JobDTO {
+public class JobDTO implements Serializable{
 
     public int jobId;
     public CompanyDTO company;
@@ -27,7 +28,6 @@ public class JobDTO {
 
     public JobDTO() {
     }
-
 
     public JobDTO(int jobId, CompanyDTO company, String jobReq, String jobName, float salary, String jobType, String jobLocation, String jobExperience, LocalDate jobPostDate, String jobDescription, boolean status) {
         this.jobId = jobId;
@@ -123,7 +123,6 @@ public class JobDTO {
         this.jobDescription = jobDescription;
     }
 
-
     public float getSalary() {
         return salary;
     }
@@ -131,7 +130,5 @@ public class JobDTO {
     public void setSalary(float salary) {
         this.salary = salary;
     }
-
-
 
 }

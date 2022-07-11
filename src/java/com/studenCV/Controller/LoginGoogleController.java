@@ -33,25 +33,21 @@ public class LoginGoogleController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         String code = request.getParameter("code");
         try {
             if (code == null || code.isEmpty()) {
                 request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
                 String accessToken = GoogleUtils.getToken(code);
+// edit bua
                 UserGoogleDTO googlePojo = GoogleUtils.getUserInfo(accessToken);
                 request.setAttribute("id", googlePojo.getId());
                 request.setAttribute("name", googlePojo.getName());
                 request.setAttribute("email", googlePojo.getEmail());
-                System.out.println(googlePojo.getEmail());
+                System.out.println("email:" + googlePojo.getEmail());
                 System.out.println(googlePojo.getId());
                 System.out.println(googlePojo.getName());
-                System.out.println(googlePojo.getFamily_name());
-                System.out.println(googlePojo.getGiven_name());
-                System.out.println(googlePojo.getLink());
-                System.out.println(googlePojo.getName());
-                System.out.println(googlePojo.getPicture());
                 
                 StudentDAO sDao = new StudentDAO();
                 StudentDTO sDto = sDao.getStudentByEmail(googlePojo.getEmail());
