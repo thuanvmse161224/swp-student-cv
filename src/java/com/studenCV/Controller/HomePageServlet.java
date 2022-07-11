@@ -4,8 +4,11 @@
  */
 package com.studenCV.Controller;
 
+import com.studentCV.DAO.JobDAO;
+import com.studentCV.DTO.JobDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +31,22 @@ public class HomePageServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+
+            JobDAO jobDAO = new JobDAO();
+            ArrayList<JobDTO> jobList = new ArrayList<>();
+            jobList = jobDAO.getAllJob();
+            System.out.println("JOB LIST");
+            int count = 0;
+            for (JobDTO job : jobList) {
+                count++;
+                System.out.println("Count :"+count);
+                System.out.println(job.getJobPostDate());
+            }
+            System.out.println("Sum ="+count);
+            System.out.println("JOB LIST END");
+        } catch (Exception e) {
+        }
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
