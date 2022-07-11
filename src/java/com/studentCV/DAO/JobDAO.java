@@ -52,7 +52,7 @@ public class JobDAO {
             if (con != null) {
                 pstm = con.prepareStatement(sql);
                 rs = pstm.executeQuery();
-                if (rs.next()) {
+                while (rs.next()) {
                     int jid = rs.getInt("JobId");
                     String cid = rs.getString("CompanyId");
                     String jreq = rs.getString("JobReq");
@@ -67,7 +67,7 @@ public class JobDAO {
 
                     CompanyDAO c = new CompanyDAO();
 
-                    JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloc, jexp, jpdate, jdes, status);
+                    JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jreq, jname, salary, jtype, jloc, jexp, jpdate, jdes, status);
                     lst.add(job);
                 }
             }
@@ -109,7 +109,7 @@ public class JobDAO {
                     String jexp = rs.getString("JobExperience");
                     LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
                     String jdes = rs.getString("JobDescription");
-                    Boolean status = rs.getBoolean("Status");
+                    boolean status = rs.getBoolean("Status");
                     CompanyDAO c = new CompanyDAO();
                     result = new JobDTO(id, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloca, jexp, jpdate, jdes, status);
 
