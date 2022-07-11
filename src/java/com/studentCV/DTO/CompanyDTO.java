@@ -5,11 +5,13 @@
  */
 package com.studentCV.DTO;
 
+import java.io.Serializable;
+
 /**
  *
  * @author minhh
  */
-public class CompanyDTO {
+public class CompanyDTO implements Serializable{
 
     public String companyId;
     public String companyName;
@@ -17,19 +19,29 @@ public class CompanyDTO {
     public String email;
     public String phoneNumber;
     public String addr;
+    public String img;
     public boolean status;
 
     public CompanyDTO() {
     }
 
-    public CompanyDTO(String companyId, String companyName ,String specialization, String email, String phoneNumber, String addr, boolean status) {
+    public CompanyDTO(String companyId, String companyName, String specialization, String email, String phoneNumber, String addr, String img, boolean status) {
         this.companyId = companyId;
         this.companyName = companyName;
         this.specialization = specialization;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.addr = addr;
+        this.img = img;
         this.status = status;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getCompanyName() {

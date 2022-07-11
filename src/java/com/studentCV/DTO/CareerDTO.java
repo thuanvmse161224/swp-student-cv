@@ -4,11 +4,13 @@
  */
 package com.studentCV.DTO;
 
+import java.io.Serializable;
+
 /**
  *
  * @author tungp
  */
-public class CareerDTO {
+public class CareerDTO implements Serializable{
 
     public int careerId;
     public String careerName;

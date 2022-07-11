@@ -5,11 +5,13 @@
  */
 package com.studentCV.DTO;
 
+import java.io.Serializable;
+
 /**
  *
  * @author minhh
  */
-public class CV_DTO {
+public class CV_DTO implements Serializable{
 
     public int cvId;
     public StudentDTO student;
