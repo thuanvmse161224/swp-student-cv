@@ -72,7 +72,7 @@ public class JobDAO {
                     String jexp = rs.getString("JobExperince");
                     LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
                     String jdes = rs.getString("JobDescription");
-                    Boolean status = rs.getBoolean("Status");
+                    boolean status = rs.getBoolean("Status");
 
                     CompanyDAO c = new CompanyDAO();
 
