@@ -22,7 +22,7 @@ public class DBUtils {
             //2.Create connection
 
             String sqlConnectionString = "jdbc:sqlserver://localhost:1433;databaseName=StudentCV";
-            Connection con = DriverManager.getConnection(sqlConnectionString, "sa", "1234567890");
+            Connection con = DriverManager.getConnection(sqlConnectionString, "sa", "12345");
 
             return con;
         } catch (ClassNotFoundException | SQLException e) {

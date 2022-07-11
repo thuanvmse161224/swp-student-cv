@@ -89,9 +89,11 @@ public class CompanyDAO {
             con = DBUtils.makeConnection();
 
             if (con != null) {
+                DBUtils db = new DBUtils();
+                con = db.makeConnection();
                 pstm = con.prepareStatement(sql);
-                rs = pstm.executeQuery();
                 pstm.setString(1, id);
+                rs = pstm.executeQuery();
                 while (rs.next()) {
                     String cname = rs.getString("CompanyName");
                     String spec = rs.getString("Specialization");
