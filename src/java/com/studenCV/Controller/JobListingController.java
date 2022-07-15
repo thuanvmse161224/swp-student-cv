@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tungn
  */
-public class HomePageServlet extends HttpServlet {
+public class JobListingController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,17 +29,26 @@ public class HomePageServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private static final String ERROR = "error.jsp";
+    private static final String VIEW = "job_listing.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        String url = ERROR;
         try {
-
             JobDAO jobDAO = new JobDAO();
             ArrayList<JobDTO> jobList = new ArrayList<>();
             jobList = jobDAO.getAllJob();
-            
+//            for (JobDTO jobDTO : jobList) {
+//                System.out.println(jobDTO.getJobReq());
+//            }
+            request.setAttribute("JOB_LIST", jobList);
+            url = VIEW;
         } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            request.getRequestDispatcher(url).forward(request, response);
         }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
