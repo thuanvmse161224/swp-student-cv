@@ -47,10 +47,9 @@ public class JobDAO {
                 + "From Job ";
         ArrayList<JobDTO> lst = new ArrayList<>();
         try {
-            DBUtils db = new DBUtils();
-            con = db.makeConnection();
+            con = DBUtils.makeConnection();
             if (con != null) {
-                pstm = con.prepareStatement(sql);
+                pstm = con.prepareStatement(sql);    
                 rs = pstm.executeQuery();
                 while (rs.next()) {
                     int jid = rs.getInt("JobId");
@@ -97,8 +96,8 @@ public class JobDAO {
 
             if (con != null) {
                 pstm = con.prepareStatement(sql);
-                rs = pstm.executeQuery();
                 pstm.setInt(1, id);
+                rs = pstm.executeQuery();
                 while (rs.next()) {
                     String cid = rs.getString("CompanyId");
                     String jname = rs.getString("JobName");
@@ -139,8 +138,7 @@ public class JobDAO {
                     + "      ,[JobDescription]) "
                     + "      ,[Status]) "
                     + "Values(?,?,?,?,?,?,?,?,?,?,?)";
-            DBUtils db = new DBUtils();
-            con = db.makeConnection();
+            con = DBUtils.makeConnection();
 
             pstm = con.prepareStatement(sql);
             pstm.setInt(1, job.getJobId());
@@ -168,8 +166,7 @@ public class JobDAO {
             String sql = "UPDATE [StudentCV].[dbo].[Job] SET"
                     + "      ,[Status]=? "
                     + " WHERE JobId=?";
-            DBUtils db = new DBUtils();
-            con = db.makeConnection();
+            con = DBUtils.makeConnection();
             pstm = con.prepareStatement(sql);
             pstm.setBoolean(1, job.isStatus());
             pstm.setInt(2, job.getJobId());
