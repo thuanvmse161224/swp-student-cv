@@ -8,9 +8,10 @@ package com.studenCV.Controller;
 import com.studentCV.DAO.JobDAO;
 import com.studentCV.DTO.JobDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,13 +24,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-@WebServlet(name="SearchJobServlet", urlPatterns={"/searchJob"})
-public class SearchJobServlet extends HttpServlet {
+@WebServlet(name="JobDetailsServlet", urlPatterns={"/JobDetailsServlet"})
+public class JobDetailsServlet extends HttpServlet {
+    private final String JOB_DETAILS_PAGE = "job_details.jsp";
 
-    private final String SEARCH_PAGE    = "job_listing.jsp";
-    private final String ERROR_PAGE     = "job_listing.jsp";
-
-   
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -40,39 +38,32 @@ public class SearchJobServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR_PAGE;
-        String searchValue = request.getParameter("searchJobValue");
-        String searchValueFilter = request.getParameter("selectJob");
-        List<JobDTO> result = null;
+        String url = JOB_DETAILS_PAGE;
+        String jobID = request.getParameter("jobId");
+
+        JobDTO result;
         JobDAO daoJob = new JobDAO();
         try {
-            System.out.println("In search servlet");
-            if  (searchValue != null && searchValueFilter != null){
-                if (searchValue.equals("") && (searchValueFilter.equals("") || searchValueFilter.equals("All"))) {
-                    System.out.println("If empty go all");
-                    result = daoJob.getAllJob();                
-                } else {
-                    System.out.println("If not empty search value");                
-                    result = daoJob.searchByType(searchValue,searchValueFilter);               
-                }
+            if (jobID != null) {
+                System.out.println("In show details servlet");
+                int id = Integer.parseInt(jobID); 
+                result = daoJob.getJobById(id);
+                if (result != null) {
+                    request.setAttribute("DETAIL_RESULT", result);
+                }            
             } else {
-                System.out.println("If null go all");
-                result = daoJob.getAllJob();
-                //likely from incomplete url
+                //do nothing ?
+                //if there is no param
             }
-            request.setAttribute("SEARCHRESULT", result);
-            url = SEARCH_PAGE;
         }   catch (SQLException ex) {
-            log("SearchJobServlet   _ SQL " + ex.getMessage());
+            log("JobDetailsServlet   _ SQL " + ex.getMessage());
         }   catch (NamingException ex) {
-            log("SearchJobServlet   _ NamingException " + ex.getMessage());
+            log("JobDetailsServlet   _ NamingException " + ex.getMessage());
         }   catch (Exception ex) {
-            log("SearchJobServlet   _ Exception " + ex.getMessage());
-        } 
-        finally {
+            log("JobDetailsServlet   _ Exception " + ex.getMessage());
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            //response.sendRedirect(url); 
         }
     } 
 
