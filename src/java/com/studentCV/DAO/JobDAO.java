@@ -217,4 +217,53 @@ public class JobDAO {
         return false;
     }
 
+        public ArrayList<JobDTO> searchByType(String name, String type) throws NamingException, SQLException, Exception {
+        JobDTO result = null;
+        String sql = "Select JobId,"
+                + "     CompanyId, "
+                + "	JobReq, "
+                + "	JobName, "
+                + "	Salary, "
+                + "	JobType, "
+                + "	JobLocation, "
+                + "	JobExperience, "
+                + "	JobPostDate, "
+                + "	JobDescription, "
+                + "     Status  "
+                + "From Job "
+                + "Where JobName Like ? " 
+                + "And JobType = ? ";
+        
+        ArrayList<JobDTO> lst = new ArrayList<>();
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pstm = con.prepareStatement(sql);
+                pstm.setString(1, "%" + name + "%");
+                pstm.setString(2, type);
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    int jid = rs.getInt("JobId");
+                    String cid = rs.getString("CompanyId");
+                    String jreq = rs.getString("JobReq");
+                    String jname = rs.getString("JobName");
+                    float salary = rs.getFloat("Salary");
+                    String jtype = rs.getString("JobType");
+                    String jloc = rs.getString("JobLocation");
+                    String jexp = rs.getString("JobExperience");
+                    LocalDate jpdate = LocalDate.parse(rs.getString("JobPostDate"));
+                    String jdes = rs.getString("JobDescription");
+                    boolean status = rs.getBoolean("Status");
+
+                    CompanyDAO c = new CompanyDAO();
+
+                    JobDTO job = new JobDTO(jid, c.getCompanybyId(cid), jreq, jname, salary, jtype, jloc, jexp, jpdate, jdes, status);
+                    lst.add(job);
+                }
+            }
+        } finally {
+            closeConnection();
+        }
+        return lst;
+    }
 }

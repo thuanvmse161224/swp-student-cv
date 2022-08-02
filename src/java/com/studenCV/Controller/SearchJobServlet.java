@@ -47,9 +47,9 @@ public class SearchJobServlet extends HttpServlet {
         JobDAO daoJob = new JobDAO();
         try {
             System.out.println("In search servlet");
-            if (searchValue.trim().length() > 0) {
+            if (searchValue != null) {
                 System.out.println("If not null search value");
-                //result = daoJob.search();
+                result = daoJob.searchByType(searchValue,searchValueFilter);
             } else {
                 System.out.println("If null go all");
                 result = daoJob.getAllJob();
