@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 public class MainController extends HttpServlet {
     private final String START_PAGE="#";
     private final String ERROR_PAGE="#";
-    private final String SEARCH_CONTROLLER="searchJob";
+    private final String SEARCH_CONTROLLER="searchJob";    
+    private final String LOGOUT_CONTROLLER="LogoutServlet";
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -44,6 +45,7 @@ public class MainController extends HttpServlet {
             } else {
                 switch (button) {
                 case "Find Job": url = SEARCH_CONTROLLER; break;
+                case "Logout": url = LOGOUT_CONTROLLER; break;
                 case "A": break;
                 default: url = ERROR_PAGE; break;
                 }
