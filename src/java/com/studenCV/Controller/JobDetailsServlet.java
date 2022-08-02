@@ -5,7 +5,14 @@
 
 package com.studenCV.Controller;
 
+import com.studentCV.DAO.JobDAO;
+import com.studentCV.DTO.JobDTO;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,15 +24,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-
-@WebServlet(name="MainController", urlPatterns={"/MainController"})
-public class MainController extends HttpServlet {
-    private final String START_PAGE="#";
-    private final String ERROR_PAGE="#";
-    private final String SEARCH_CONTROLLER="searchJob";  
-    private final String SHOW_JOB_CONTROLLER="JobDetailsServlet";
-    private final String LOGOUT_CONTROLLER="LogoutServlet";    
-
+@WebServlet(name="JobDetailsServlet", urlPatterns={"/JobDetailsServlet"})
+public class JobDetailsServlet extends HttpServlet {
+    private final String JOB_DETAILS_PAGE = "job_details.jsp";
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,27 +38,32 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String  button = request.getParameter("btnAction");
-        String url = START_PAGE;
+        String url = JOB_DETAILS_PAGE;
+        String jobID = request.getParameter("jobId");
 
+        JobDTO result;
+        JobDAO daoJob = new JobDAO();
         try {
-            if (button == null) {
-                //url = COOKIES_CHECKED_CONTROLLER; 
+            if (jobID != null) {
+                System.out.println("In show details servlet");
+                int id = Integer.parseInt(jobID); 
+                result = daoJob.getJobById(id);
+                if (result != null) {
+                    request.setAttribute("DETAIL_RESULT", result);
+                }            
             } else {
-                switch (button) {
-                case "Find Job": url = SEARCH_CONTROLLER; break;
-                case "Show Job": url = SHOW_JOB_CONTROLLER; break;
-                case "Logout": url = LOGOUT_CONTROLLER; break;
-                case "A": break;
-                default: url = ERROR_PAGE; break;
-                }
-            }       
-        }
-        finally {
+                //do nothing ?
+                //if there is no param
+            }
+        }   catch (SQLException ex) {
+            log("JobDetailsServlet   _ SQL " + ex.getMessage());
+        }   catch (NamingException ex) {
+            log("JobDetailsServlet   _ NamingException " + ex.getMessage());
+        }   catch (Exception ex) {
+            log("JobDetailsServlet   _ Exception " + ex.getMessage());
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            //response.sendRedirect(url);
         }
     } 
 
