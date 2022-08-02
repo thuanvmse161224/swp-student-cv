@@ -47,12 +47,18 @@ public class SearchJobServlet extends HttpServlet {
         JobDAO daoJob = new JobDAO();
         try {
             System.out.println("In search servlet");
-            if (searchValue != null) {
-                System.out.println("If not null search value");
-                result = daoJob.searchByType(searchValue,searchValueFilter);
+            if  (searchValue != null && searchValueFilter != null){
+                if (searchValue.equals("") && (searchValueFilter.equals("") || searchValueFilter.equals("All"))) {
+                    System.out.println("If empty go all");
+                    result = daoJob.getAllJob();                
+                } else {
+                    System.out.println("If not empty search value");                
+                    result = daoJob.searchByType(searchValue,searchValueFilter);               
+                }
             } else {
                 System.out.println("If null go all");
                 result = daoJob.getAllJob();
+                //likely from incomplete url
             }
             request.setAttribute("SEARCHRESULT", result);
             url = SEARCH_PAGE;
