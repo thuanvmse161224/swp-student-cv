@@ -47,6 +47,7 @@ public class CompanyDAO {
                 + "	Email,\n"
                 + "	PhoneNumber,\n"
                 + "	Addr,\n"
+                + "	Img,\n"
                 + "     Status\n"
                 + "From Company\n";
         ArrayList<CompanyDTO> lst = new ArrayList<>();
@@ -61,8 +62,9 @@ public class CompanyDAO {
                 String email = rs.getString("Email");
                 String phonenum = rs.getString("PhoneNumber");
                 String address = rs.getString("Addr");
+                String img = rs.getString("Img");
                 Boolean status = rs.getBoolean("Status");
-                CompanyDTO company = new CompanyDTO(cid, cname, spec, email, phonenum, address, status);
+                CompanyDTO company = new CompanyDTO(cid, cname, spec, email, phonenum, address, img, status);
                 lst.add(company);
             }
         } finally {
@@ -78,6 +80,7 @@ public class CompanyDAO {
                 + "	Email,\n"
                 + "	PhoneNumber,\n"
                 + "	Addr,\n"
+                + "	Img,\n"
                 + "	Status\n"
                 + "From Company\n"
                 + "Where CompanyId =?";
@@ -86,17 +89,20 @@ public class CompanyDAO {
             con = DBUtils.makeConnection();
 
             if (con != null) {
+                DBUtils db = new DBUtils();
+                con = db.makeConnection();
                 pstm = con.prepareStatement(sql);
-                rs = pstm.executeQuery();
                 pstm.setString(1, id);
+                rs = pstm.executeQuery();
                 while (rs.next()) {
                     String cname = rs.getString("CompanyName");
                     String spec = rs.getString("Specialization");
                     String email = rs.getString("Email");
                     String phonenum = rs.getString("PhoneNumber");
                     String address = rs.getString("Addr");
+                    String img = rs.getString("Img");
                     Boolean status = rs.getBoolean("Status");
-                    result = new CompanyDTO(id, cname, spec, email, phonenum, address, status);
+                    result = new CompanyDTO(id, cname, spec, email, phonenum, address, img, status);
 
                 }
             }
@@ -118,8 +124,9 @@ public class CompanyDAO {
                     + "      ,([Email]\n"
                     + "      ,([PhoneNumber]\n"
                     + "      ,[Addr])\n"
+                    + "      ,[Img])\n"
                     + "      ,[Status])\n"
-                    + "Values(?,?,?,?,?,?,?)";
+                    + "Values(?,?,?,?,?,?,?,?)";
             DBUtils db = new DBUtils();
             con = db.makeConnection();
 
@@ -130,7 +137,8 @@ public class CompanyDAO {
             pstm.setString(4, company.getEmail());
             pstm.setString(5, company.getPhoneNumber());
             pstm.setString(6, company.getAddr());
-            pstm.setBoolean(7, company.isStatus());
+            pstm.setString(7, company.getImg());
+            pstm.setBoolean(8, company.isStatus());
             check = pstm.executeUpdate() > 0;
         } finally {
             closeConnection();
@@ -176,8 +184,9 @@ public class CompanyDAO {
                 pstm.setString(3, c.getEmail());
                 pstm.setString(4, c.getPhoneNumber());
                 pstm.setString(5, c.getAddr());
-                pstm.setBoolean(6, c.isStatus());
-                pstm.setString(7, c.getCompanyId());
+                pstm.setString(6, c.getImg());
+                pstm.setBoolean(7, c.isStatus());
+                pstm.setString(8, c.getCompanyId());
 
                 pstm.executeUpdate();
                 return true;

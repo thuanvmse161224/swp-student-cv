@@ -4,11 +4,13 @@
  */
 package com.studentCV.DTO;
 
+import java.io.Serializable;
+
 /**
  *
  * @author tungp
  */
-public class MajorDTO {
+public class MajorDTO implements Serializable{
 
     public String majorId;
     public String majorName;
