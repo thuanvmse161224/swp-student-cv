@@ -9,6 +9,7 @@ import com.studentCV.DAO.JobDAO;
 import com.studentCV.DTO.JobDTO;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +50,9 @@ public class JobDetailsServlet extends HttpServlet {
                 int id = Integer.parseInt(jobID); 
                 result = daoJob.getJobById(id);
                 if (result != null) {
-                    request.setAttribute("DETAIL_RESULT", result);
+                    int dist = result.jobPostDate.compareTo(LocalDate.now());
+                    request.setAttribute("days_until", dist);
+                    request.setAttribute("DETAILS_RESULT", result);
                 }            
             } else {
                 //do nothing ?
