@@ -5,8 +5,13 @@
 
 package com.studenCV.Controller;
 
+import com.studentCV.DAO.JobDAO;
+import com.studentCV.DTO.JobDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,18 +41,32 @@ public class SearchJobServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR_PAGE;
-
+        String searchValue = request.getParameter("searchJobValue");
+        String searchValueFilter = request.getParameter("selectJob");
+        List<JobDTO> result = null;
+        JobDAO daoJob = new JobDAO();
         try {
             System.out.println("In search servlet");
-            //do search, call something
-            //out result
-            //get DAO
-            if (true) url = SEARCH_PAGE;
-        }
+            if (searchValue.trim().length() > 0) {
+                System.out.println("If not null search value");
+                //result = daoJob.search();
+            } else {
+                System.out.println("If null go all");
+                result = daoJob.getAllJob();
+            }
+            request.setAttribute("SEARCHRESULT", result);
+            url = SEARCH_PAGE;
+        }   catch (SQLException ex) {
+            log("SearchJobServlet   _ SQL " + ex.getMessage());
+        }   catch (NamingException ex) {
+            log("SearchJobServlet   _ NamingException " + ex.getMessage());
+        }   catch (Exception ex) {
+            log("SearchJobServlet   _ Exception " + ex.getMessage());
+        } 
         finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            //response.sendRedirect(url);
+            //response.sendRedirect(url); 
         }
     } 
 
