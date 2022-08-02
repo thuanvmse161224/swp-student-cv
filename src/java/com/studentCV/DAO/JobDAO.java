@@ -110,7 +110,7 @@ public class JobDAO {
                     String jdes = rs.getString("JobDescription");
                     boolean status = rs.getBoolean("Status");
                     CompanyDAO c = new CompanyDAO();
-                    result = new JobDTO(id, c.getCompanybyId(cid), jname, jreq, salary, jtype, jloca, jexp, jpdate, jdes, status);
+                    result = new JobDTO(id, c.getCompanybyId(cid), jreq, jname, salary, jtype, jloca, jexp, jpdate, jdes, status);
 
                 }
             }
