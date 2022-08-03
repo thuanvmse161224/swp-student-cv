@@ -6,7 +6,7 @@
 package com.studenCV.Controller;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,16 +17,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-
-@WebServlet(name="MainController", urlPatterns={"/MainController"})
-public class MainController extends HttpServlet {
-    private final String START_PAGE="#";
-    private final String ERROR_PAGE="#";
-    private final String SEARCH_CONTROLLER="searchJob";  
-    private final String SHOW_JOB_CONTROLLER="JobDetailsServlet";
-    private final String POST_JOB_CONTROLLER="CreateJobServlet";
-    private final String LOGOUT_CONTROLLER="LogoutServlet";    
-
+@WebServlet(name="CreateJobServlet", urlPatterns={"/CreateJobServlet"})
+public class CreateJobServlet extends HttpServlet {
+    private final String postJobPage = "job_posting.jsp";
+    private final String postJobError = "job_posting.jsp";
 
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,28 +33,8 @@ public class MainController extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String  button = request.getParameter("btnAction");
-        String url = START_PAGE;
-
-        try {
-            if (button == null) {
-                //url = COOKIES_CHECKED_CONTROLLER; 
-            } else {
-                switch (button) {
-                case "Find Job": url = SEARCH_CONTROLLER; break;
-                case "Show Job": url = SHOW_JOB_CONTROLLER; break;
-                //case "Post Job": url = POST_JOB_CONTROLLER; break;
-                case "Logout": url = LOGOUT_CONTROLLER; break;
-                case "A": break;
-                default: url = ERROR_PAGE; break;
-                }
-            }       
-        }
-        finally {
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
-            //response.sendRedirect(url);
-        }
+        
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

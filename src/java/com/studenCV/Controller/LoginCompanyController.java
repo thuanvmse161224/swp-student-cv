@@ -3,23 +3,28 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package com.studentCV.servlet;
+package com.studenCV.Controller;
 
+
+import com.studentCV.DAO.CompanyDAO;
+import com.studentCV.DTO.CompanyDTO;
+import com.studentCV.DTO.UserGoogleDTO;
+import com.studentCV.utils.GoogleUtils;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 /**
  *
  * @author ADMIN
  */
-public class MainController extends HttpServlet {
-    private final String START_PAGE="#";
-    private final String ERROR_PAGE="#";
-
+@WebServlet(name="LoginCompanyController", urlPatterns={"/LoginCompanyController"})
+public class LoginCompanyController extends HttpServlet {
+    private final String HOME_PAGE = "index.jsp";
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -30,28 +35,43 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String  button = request.getParameter("btnAction");
-        String url = START_PAGE;
-
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(true);
+        String code = request.getParameter("code");
+        String url = HOME_PAGE;
         try {
-            if (button == null) {
-                //url = COOKIES_CHECKED_CONTROLLER; 
+            if (code == null || code.isEmpty()) {
+                request.getRequestDispatcher("index.jsp").forward(request, response);
             } else {
+                String accessToken = GoogleUtils.getToken(code);
+// edit bua
+                UserGoogleDTO googlePojo = GoogleUtils.getUserInfo(accessToken);
+                request.setAttribute("id", googlePojo.getId());
+                request.setAttribute("name", googlePojo.getName());
+                request.setAttribute("email", googlePojo.getEmail());
+                System.out.println("email:" + googlePojo.getEmail());
+                System.out.println(googlePojo.getId());
+                System.out.println(googlePojo.getName());
+                
+                //CompanyDAO dao = new CompanyDAO();
+                //CompanyDTO dto = dao.getCompanyByEmail(googlePojo.getEmail());
                 /*
-                switch (button) {
-                case "Find Job": url = SEARCH_SERVLET; break;
-                case "A": break;
-                default: url = ERROR_PAGE; break;
+                if (dao != null) {
+                    session.setAttribute("COMPANY", sDto);
+                } else {
+                    //StudentDTO std = new StudentDTO(googlePojo.getEmail());
+                    //sDao.insert(std);
+                    //session.setAttribute("COMPANY", std);
                 }
                 */
-            }       
-        }
-        finally {
+            }
+        } catch (Exception ex) {
+            log("LoginCompanyController   _ Exception " + ex.getMessage());
+        } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-            //response.sendRedirect(url);
         }
+
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
